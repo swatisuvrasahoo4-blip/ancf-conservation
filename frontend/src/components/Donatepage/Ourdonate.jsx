@@ -63,7 +63,7 @@ const Ourdonate = () => {
           Choose where your support can make an impact
         </h2>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-2">
           <Box
             img={forest}
             hd="Forest Restoration"
@@ -92,6 +92,7 @@ const Ourdonate = () => {
 
       {/* FAQ and call to action */}
       <div className="grid w-full grid-cols-1 lg:grid-cols-2">
+
         {/* FAQ */}
         <div className="bg-amber-100 px-4 py-10 sm:px-8 lg:px-12 lg:py-14">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-800">
@@ -103,33 +104,50 @@ const Ourdonate = () => {
           </h2>
 
           <div className="mt-7">
-            {faqData.map((item, index) => (
-              <div
-                key={item.question}
-                className="border-b border-[#66390A]/50"
-              >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(index)}
-                  className="flex w-full items-center justify-between gap-5 py-5 text-left"
-                  aria-expanded={openFaq === index}
+            {faqData.map((item, index) => {
+              const isOpen = openFaq === index;
+
+              return (
+                <div
+                  key={item.question}
+                  className="border-b border-[#66390A]/50"
                 >
-                  <span className="font-serif text-base text-[#66390A] sm:text-lg">
-                    {item.question}
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => toggleFaq(index)}
+                    className="flex w-full items-center justify-between gap-5 py-5 text-left"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="font-serif text-base text-[#66390A] sm:text-lg">
+                      {item.question}
+                    </span>
 
-                  <span className="shrink-0 text-2xl font-bold text-[#66390A]">
-                    {openFaq === index ? "−" : "+"}
-                  </span>
-                </button>
+                    <span
+                      className={`shrink-0 text-2xl font-bold text-[#66390A] transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : "rotate-0"
+                      }`}
+                    >
+                      {isOpen ? "−" : "+"}
+                    </span>
+                  </button>
 
-                {openFaq === index && (
-                  <p className="pb-5 pr-8 text-sm leading-6 text-[#6d4b2b] sm:text-base">
-                    {item.answer}
-                  </p>
-                )}
-              </div>
-            ))}
+                  {/* Smooth FAQ answer transition */}
+                  <div
+                    className={`grid transition-all duration-500 ease-in-out ${
+                      isOpen
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="pb-5 pr-8 text-sm leading-6 text-[#6d4b2b] sm:text-base">
+                        {item.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -149,7 +167,7 @@ const Ourdonate = () => {
             <button
               type="button"
               onClick={handleDonate}
-              className="mt-7 rounded-full bg-[#1f3c28] px-7 py-3 text-sm font-medium text-white transition duration-300 hover:bg-[#2f5a3d] hover:-translate-y-0.5"
+              className="mt-7 rounded-full bg-[#1f3c28] px-7 py-3 text-sm font-medium text-white transition duration-300 hover:-translate-y-0.5 hover:bg-[#2f5a3d]"
             >
               Donate Now
             </button>

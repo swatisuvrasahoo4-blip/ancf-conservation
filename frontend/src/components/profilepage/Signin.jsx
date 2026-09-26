@@ -8,6 +8,8 @@ import impact from "../profilepage/profimg/simpact.png";
 import connect from "../profilepage/profimg/sconnect.png";
 import contribute from "../profilepage/profimg/scontribute.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Signin = () => {
   const navigate = useNavigate();
 
@@ -49,7 +51,7 @@ const Signin = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email: formData.email.trim(),
           password: formData.password,
@@ -87,7 +89,7 @@ const Signin = () => {
         );
       } else if (err.request) {
         setError(
-          "Unable to connect to the server. Please check that your backend is running."
+          "Unable to connect to the server. Please try again."
         );
       } else {
         setError(
@@ -120,7 +122,7 @@ const Signin = () => {
   return (
     <main className="flex min-h-screen w-full items-center justify-center bg-amber-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="flex w-full max-w-6xl flex-col overflow-hidden rounded-2xl shadow-2xl lg:flex-row">
-        
+
         {/* Left side */}
         <section className="w-full bg-[#1f3c28] p-6 text-amber-50 sm:p-8 lg:w-1/2 lg:p-10">
           <div className="flex items-center gap-3">

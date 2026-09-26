@@ -18,9 +18,27 @@ const Navbar = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Get login state from localStorage
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
+
+  // Get logged-in user from localStorage
+  const [user] = useState(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+
+      return storedUser
+        ? JSON.parse(storedUser)
+        : null;
+    } catch {
+      return null;
+    }
+  });
+
+  // Get first letter of user's name
+  const userInitial =
+    user?.name?.trim()?.charAt(0)?.toUpperCase() || "U";
 
   // Logout user
   const handleLogout = () => {
@@ -64,6 +82,7 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-amber-50 shadow-sm">
       <nav className="mx-auto flex min-h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
         {/* Logo */}
         <Link
           to="/home"
@@ -79,6 +98,7 @@ const Navbar = () => {
 
         {/* Desktop navigation */}
         <div className="hidden items-center gap-7 lg:flex">
+
           <Link
             to="/home"
             className={navLinkClass("/home")}
@@ -107,24 +127,28 @@ const Navbar = () => {
             Partners
           </Link>
 
-          {isLoggedIn && (
-            <Link
-              to="/dashboard"
-              className={navLinkClass("/dashboard")}
-            >
-              Dashboard
-            </Link>
-          )}
-
+          {/* Logged-in user */}
           {isLoggedIn ? (
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-gray-800 transition duration-200 hover:text-red-600"
-            >
-              <LogOut size={17} />
-              Logout
-            </button>
+            <div className="flex items-center gap-3">
+
+              {/* User initial circle */}
+              <div
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1f3c28] text-sm font-bold text-white"
+                title={user?.name || "User"}
+              >
+                {userInitial}
+              </div>
+
+              {/* Logout */}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-gray-800 transition duration-200 hover:text-red-600"
+              >
+                <LogOut size={17} />
+                Logout
+              </button>
+            </div>
           ) : (
             <Link
               to="/signin"
@@ -164,6 +188,7 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="border-t border-amber-200 bg-amber-50 px-4 py-4 lg:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1">
+
             <Link
               to="/home"
               onClick={closeMenu}
@@ -196,25 +221,38 @@ const Navbar = () => {
               Partners
             </Link>
 
-            {isLoggedIn && (
-              <Link
-                to="/dashboard"
-                onClick={closeMenu}
-                className={mobileLinkClass("/dashboard")}
-              >
-                Dashboard
-              </Link>
-            )}
-
             {isLoggedIn ? (
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-3 text-left text-sm font-semibold text-red-600 transition hover:bg-red-50"
-              >
-                <LogOut size={17} />
-                Logout
-              </button>
+              <div className="mt-2 border-t border-amber-200 pt-3">
+
+                {/* Mobile user */}
+                <div className="mb-3 flex items-center gap-3 px-3">
+
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1f3c28] text-sm font-bold text-white">
+                    {userInitial}
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-gray-800">
+                      {user?.name || "User"}
+                    </p>
+
+                    {user?.email && (
+                      <p className="truncate text-xs text-gray-500">
+                        {user.email}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-3 text-left text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                >
+                  <LogOut size={17} />
+                  Logout
+                </button>
+              </div>
             ) : (
               <Link
                 to="/signin"

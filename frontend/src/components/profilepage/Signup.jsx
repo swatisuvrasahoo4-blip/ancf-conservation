@@ -13,6 +13,8 @@ import impact from "../profilepage/profimg/simpact.png";
 import connect from "../profilepage/profimg/sconnect.png";
 import contribute from "../profilepage/profimg/scontribute.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const features = [
   {
     image: connect,
@@ -92,7 +94,7 @@ const Signup = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${API_URL}/api/auth/register`,
         {
           name: formData.name.trim(),
           email: formData.email.trim(),
@@ -130,7 +132,7 @@ const Signup = () => {
         );
       } else if (err.request) {
         setError(
-          "Unable to connect to the server. Please check that your backend is running."
+          "Unable to connect to the server. Please try again."
         );
       } else {
         setError(
@@ -145,7 +147,7 @@ const Signup = () => {
   return (
     <main className="flex min-h-screen w-full items-center justify-center bg-amber-50 px-4 py-8 sm:px-6 lg:px-8">
       <div className="flex w-full max-w-6xl flex-col overflow-hidden rounded-2xl shadow-2xl lg:flex-row">
-        
+
         {/* Left side */}
         <section className="w-full bg-[#1f3c28] p-6 text-amber-50 sm:p-8 lg:w-1/2 lg:p-10">
           <div className="flex items-center gap-3">
@@ -247,6 +249,8 @@ const Signup = () => {
             )}
 
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+
+              {/* Full Name */}
               <div>
                 <label
                   htmlFor="upuser"
@@ -272,6 +276,7 @@ const Signup = () => {
                 </div>
               </div>
 
+              {/* Email */}
               <div>
                 <label
                   htmlFor="upemail"
@@ -297,6 +302,7 @@ const Signup = () => {
                 </div>
               </div>
 
+              {/* Password */}
               <div>
                 <label
                   htmlFor="uppassword"
@@ -322,6 +328,7 @@ const Signup = () => {
                 </div>
               </div>
 
+              {/* Confirm Password */}
               <div>
                 <label
                   htmlFor="uconfpassword"
@@ -347,14 +354,14 @@ const Signup = () => {
                 </div>
               </div>
 
+              {/* Phone */}
               <div className="md:col-span-2">
                 <label
                   htmlFor="upphone"
                   className="mb-2 block font-serif text-sm font-bold text-[#1f3c28]"
                 >
-                  Phone Number
+                  Phone Number{" "}
                   <span className="font-normal text-gray-600">
-                    {" "}
                     (Optional)
                   </span>
                 </label>

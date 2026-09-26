@@ -7,6 +7,7 @@ import {
 
 import Navbar from "./components/homepage/Navbar";
 import Footer from "./components/homepage/Footer";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 import Home from "./components/homepage/Home";
 import Mission from "./components/missionpage/Mission";
@@ -25,6 +26,9 @@ const App = () => {
 
   return (
     <>
+      {/* Scroll to top whenever the route changes */}
+      <ScrollToTop />
+
       {!hideNavbarFooter && <Navbar />}
 
       <Routes>
