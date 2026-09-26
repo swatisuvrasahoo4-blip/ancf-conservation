@@ -3,17 +3,17 @@ import mongoose from "mongoose";
 // Connect to MongoDB
 const connectDB = async () => {
   try {
-    const uri = process.env.MONGO_URI;
+    const url = process.env.MONGO_URL;
 
     // Check MongoDB connection string
-    if (!uri) {
+    if (!url) {
       throw new Error(
-        "MONGO_URI is missing from your .env file."
+        "MONGO_URL is missing from your .env file."
       );
     }
 
     // Connect to MongoDB
-    await mongoose.connect(uri);
+    await mongoose.connect(url);
 
     console.log("MongoDB connected successfully");
   } catch (error) {
